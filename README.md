@@ -1,4 +1,4 @@
-# avored-admin
+# AvoRed GraphQl Admin Vue App
 
 ## Project setup
 ```

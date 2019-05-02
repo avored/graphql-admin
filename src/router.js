@@ -6,8 +6,6 @@ import Auth from './middleware/auth';
 import isNil from 'lodash/isNil';
 
 Vue.use(Router)
-
-
 let router = new Router({
       mode: 'history',
       base: process.env.BASE_URL,
@@ -17,7 +15,7 @@ let router = new Router({
           path: '/admin/dashboard',
           name: 'admin-dashboard',
           component: AdminDashboard,
-          meta: {'middleware': {auth: Auth} }
+          meta: {'middleware': {auth: Auth}, 'layout': 'app' }
         },
         {
           path: '/admin/login',
@@ -26,7 +24,7 @@ let router = new Router({
           // this generates a separate chunk (about.[hash].js) for this route
           // which is lazy-loaded when the route is visited.
           component: () => import('./views/admin/auth/Login.vue'),
-          meta: {'middleware': {guest: Guest} }
+          meta: {'middleware': {guest: Guest}, 'layout': 'login' }
         }
       ]
     });

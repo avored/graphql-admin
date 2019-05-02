@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h1>AvoRed Dashboard</h1>
+      <h1>AvoRed Dashboard Route</h1>
+      
   </div>
 </template>
 

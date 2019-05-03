@@ -1,0 +1,12 @@
+query AdminMenus {
+  admin_menus {
+      key
+      icon
+      url
+      subMenus { 
+          key 
+          label
+          url 
+      }
+  }
+}

@@ -5,24 +5,55 @@ import Guest from './middleware/guest';
 import Auth from './middleware/auth';
 import isNil from 'lodash/isNil';
 
+import Catalog from './views/catalog/Catalog.vue'
+
+import CategoryIndex from './views/catalog/category/CategoryIndex.vue'
+import ProductIndex from './views/catalog/product/ProductIndex.vue'
+
 Vue.use(Router)
 let router = new Router({
       mode: 'history',
       base: process.env.BASE_URL,
       routes: [
-        { path: '/', redirect: '/admin/dashboard' },
+        { path: '/', redirect: '/admin/dashboard', displayInSidebar: false },
         {
           path: '/admin/dashboard',
           name: 'admin-dashboard',
+          label: 'Dashboard',
+          icon: 'dashboard',
           component: AdminDashboard,
+          displayInSidebar: true,
           meta: {'middleware': {auth: Auth}, 'layout': 'app' }
+        },
+        {
+          path: '/admin/catalog',
+          name: 'admin-catalog',
+          label: 'Catalog',
+          icon: 'dashboard',
+          displayInSidebar: true,
+          component: Catalog,
+          meta: {'middleware': {auth: Auth}, 'layout': 'app' },
+          children: [
+              {
+                path: 'product',
+                component: ProductIndex,
+                name: 'admin-product',
+                label: 'Product',
+                meta: {'middleware': {auth: Auth}, 'layout': 'app' },
+              },
+              {
+                path: 'category',
+                component: CategoryIndex,
+                name: 'admin-category',
+                label: 'Category',
+                meta: {'middleware': {auth: Auth}, 'layout': 'app' },
+              }
+          ]
         },
         {
           path: '/admin/login',
           name: 'admin-login',
-          // route level code-splitting
-          // this generates a separate chunk (about.[hash].js) for this route
-          // which is lazy-loaded when the route is visited.
+          displayInSidebar: false,
           component: () => import('./views/admin/auth/Login.vue'),
           meta: {'middleware': {guest: Guest}, 'layout': 'login' }
         }

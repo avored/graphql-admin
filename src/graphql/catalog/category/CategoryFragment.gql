@@ -1,0 +1,7 @@
+fragment Category on CategoryType {
+    id
+    name
+    slug
+    meta_title
+    meta_description
+}

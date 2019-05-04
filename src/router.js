@@ -8,6 +8,7 @@ import isNil from 'lodash/isNil';
 import Catalog from './views/catalog/Catalog.vue'
 
 import CategoryIndex from './views/catalog/category/CategoryIndex.vue'
+import CategoryEdit from './views/catalog/category/CategoryEdit.vue'
 import ProductIndex from './views/catalog/product/ProductIndex.vue'
 
 Vue.use(Router)
@@ -27,26 +28,33 @@ let router = new Router({
         },
         {
           path: '/admin/catalog',
-          name: 'admin-catalog',
+          name: 'admin.catalog',
           label: 'Catalog',
           icon: 'dashboard',
           displayInSidebar: true,
           component: Catalog,
-          meta: {'middleware': {auth: Auth}, 'layout': 'app' },
+          meta: {'middleware': {auth: Auth}},
           children: [
               {
                 path: 'product',
                 component: ProductIndex,
-                name: 'admin-product',
+                name: 'admin.product',
                 label: 'Product',
-                meta: {'middleware': {auth: Auth}, 'layout': 'app' },
+                meta: {'middleware': {auth: Auth}},
               },
               {
                 path: 'category',
                 component: CategoryIndex,
-                name: 'admin-category',
+                name: 'admin.category',
                 label: 'Category',
-                meta: {'middleware': {auth: Auth}, 'layout': 'app' },
+                meta: {'middleware': {auth: Auth}},
+              },
+              {
+                path: 'category/:id/edit',
+                component: CategoryEdit,
+                name: 'admin.category.edit',
+                label: 'Category Edit',
+                meta: {'middleware': {auth: Auth}},
               }
           ]
         },

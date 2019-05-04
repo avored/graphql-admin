@@ -69,9 +69,9 @@
 <script>
 
 import gql from 'graphql-tag';
-import UserAuth from '../../../graphql/UserAuth.gql';
+import UserAuth from '@/graphql/UserAuth.gql';
 import isNil from 'lodash/isNil';
-import {AUTH_TOKEN} from '../../../constants';
+import {AUTH_TOKEN} from '@/constants';
 
 export default {
   name: 'admin-login',

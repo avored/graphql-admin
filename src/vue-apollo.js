@@ -7,7 +7,7 @@ import { AUTH_TOKEN } from './constants/index';
 Vue.use(VueApollo)
 
 // Http endpoint
-const httpEndpoint = process.env.VUE_APP_GRAPHQL_HTTP || 'http://ecommerce.local/graphql'
+const httpEndpoint = process.env.VUE_APP_GRAPHQL_HTTP || 'https://ecommerce.local/graphql'
 
 // Files URL root
 export const filesRoot = process.env.VUE_APP_FILES_ROOT || httpEndpoint.substr(0, httpEndpoint.indexOf('/graphql'))
@@ -54,7 +54,7 @@ const defaultOptions = {
 
 const otherOptions = {
   // You can use `https` for secure connection (recommended in production)
-  httpEndpoint: 'http://ecommerce.local/graphql/guest',
+  httpEndpoint: 'https://ecommerce.local/graphql/guest',
   // You can use `wss` for secure connection (recommended in production)
   // Use `null` to disable subscriptions
   //wsEndpoint: process.env.VUE_APP_GRAPHQL_WS || 'ws://localhost:4000/graphql',
@@ -101,9 +101,6 @@ export function createProvider (options = {}) {
     ...options,
   })
   otherApolloClient.wsClient = wsClient
-
-  //console.log(window.apollo = apolloClient);
-  //console.log(window.other = otherApolloClient);
 
   // Create vue apollo provider
   const apolloProvider = new VueApollo({

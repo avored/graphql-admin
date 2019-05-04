@@ -7,7 +7,8 @@ const messages = {
     'en': {
         catalog: {
             category: {
-                index: 'Category Index'
+                index: 'Category Index',
+                edit: 'Category Edit',
             },
         },
     },

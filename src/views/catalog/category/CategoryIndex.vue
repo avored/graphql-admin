@@ -6,35 +6,39 @@
         :loading="loading"
         :dataSource="categories"
       >
-        <template slot="name" slot-scope="name">
-          {{ name }}
+        <template slot="action" slot-scope="action, record">
+            <router-link  :to="{ name:'admin.category.edit', params:{id:record.id} }">
+                <a-icon type="edit"></a-icon> 
+            </router-link>
+            <a @click="deleteCategory(record)">
+                 <a-icon type="delete" />
+            </a>
         </template>
   </a-table>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import CATEGORY_ALL from '@/graphql/catalog/category/AllCategory.gql'
+import CATEGORY_ALL from '@/graphql/catalog/category/All.gql'
+import CATEGORY_DELETE from '@/graphql/catalog/category/Delete.gql'
+import UserAuth from '@/graphql/UserAuth.gql';
 
 const columns = [
-      {
-      title: 'Name',
-      dataIndex: 'name',
-      sorter: true,
-      width: '20%',
-      scopedSlots: { customRender: 'name' },
-      }, 
-      {
-      title: 'Slug',
-      dataIndex: 'slug',
-      },
-      {
-      title: 'Meta Title',
-      dataIndex: 'meta_title',
-      }
+    {
+        title: 'Name',
+        dataIndex: 'name',
+        sorter: true,
+    },{
+        title: 'Slug',
+        dataIndex: 'slug',
+        sorter: true,
+    },{
+        title: 'Action',
+        dataIndex: 'action',
+        width: '10%',
+        scopedSlots: { customRender: 'action' },
+    }
   ];
-
 
 export default {
   name: 'category-index',
@@ -48,8 +52,31 @@ export default {
     }
   },
   methods: {
-   
-    
+      deleteCategory(record) {
+          var app = this;
+          this.$confirm({
+              title: 'Do you want to delete this record?',
+              onOk() {
+                return app.$apollo.mutate({
+                    mutation: CATEGORY_DELETE,
+                    variables: {
+                      id: record.id
+                    },
+                  }).then(({data}) => {
+                        console.log(data);
+                        app.$notification['success']({
+                           message: data.delete_category,
+                        });
+                        app.$router.push('/admin/catalog/category');
+                  }).catch((error) => {
+                      app.$notification['error']({
+                           message: error.message,
+                       });
+                      return;
+                  });
+              }
+          });
+      }
   },
   mounted() {
 
@@ -58,9 +85,9 @@ export default {
       categories: {
         query: CATEGORY_ALL,
         update ({ all_category }) {
-          this.loading = false;
-          return all_category
-			  },
+            this.loading = false;
+            return all_category
+		},
       },
   }
 }

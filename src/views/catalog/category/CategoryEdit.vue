@@ -13,48 +13,16 @@
               ]"
             />
         </a-form-item>
-        <a-form-item label="Name">
-          <a-input
-            v-decorator="[
-              'name',
-              {rules: [{ required: true, message: 'Please enter name for an category' }]}
-            ]"
-          />
-        </a-form-item>
-
-        <a-form-item label="Slug">
-          <a-input
-            v-decorator="[
-              'slug',
-              {rules: [{ required: true, message: 'Please enter slug for an category' }]}
-            ]"
-          />
-        </a-form-item>
-
-        <a-form-item label="Meta Title">
-          <a-input 
-            v-decorator="[
-              'meta_title',
-              {rules: [{ required: false }]}
-            ]"
-            />
-        </a-form-item>
-
-        <a-form-item label="Meta Description">
-          <a-input 
-            v-decorator="[
-              'meta_description',
-              {rules: [{ required: false }]}
-            ]"
-            />
-        </a-form-item>
-       
-
+        <category-fields />
         <a-form-item>
           <a-button type="primary" html-type="submit">
             Save
           </a-button>
-
+          <router-link class="ml-1" :to="{ name:'admin.category.index'}">
+              <a-button>
+                  Cancel
+              </a-button>
+          </router-link>
         </a-form-item>
       </a-form>
   </div>
@@ -63,7 +31,7 @@
 <script>
 import CATEGORY_FETCH from '@/graphql/catalog/category/Fetch.gql';
 import CATEGORY_UPDATE from '@/graphql/catalog/category/Update.gql';
-
+import CategoryFields from '@/components/catalog/CategoryFields.vue';
 import pick from 'lodash/pick';
 import isEmpty from 'lodash/isEmpty';
 import isNil from 'lodash/isNil';
@@ -72,6 +40,7 @@ import isFunction from 'lodash/isFunction';
 export default {
   name: 'category-edit',
   components: {
+    'category-fields': CategoryFields
   },
   data() {
       return {

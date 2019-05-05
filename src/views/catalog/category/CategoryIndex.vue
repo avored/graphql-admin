@@ -1,7 +1,7 @@
 <template>
   <div>
-      <h1 class="float-left">{{ $t('catalog.category.index') }}</h1>
-      <router-link  :to="{ name:'admin.category.create'}">
+        <h1 class="float-left">{{ $t('catalog.category.index') }}</h1>
+        <router-link  :to="{ name:'admin.category.create'}">
             <a-button class="float-right" type="primary"  icon="plus">
                 Create
             </a-button>

@@ -5,47 +5,16 @@
         :form="categoryForm"
         @submit="handleSubmit"
       >
-        <a-form-item label="Name">
-          <a-input
-            v-decorator="[
-              'name',
-              {rules: [{ required: true, message: 'Please enter name for an category' }]}
-            ]"
-          />
-        </a-form-item>
-
-        <a-form-item label="Slug">
-          <a-input
-            v-decorator="[
-              'slug',
-              {rules: [{ required: true, message: 'Please enter slug for an category' }]}
-            ]"
-          />
-        </a-form-item>
-
-        <a-form-item label="Meta Title">
-          <a-input 
-            v-decorator="[
-              'meta_title',
-              {rules: [{ required: false }]}
-            ]"
-            />
-        </a-form-item>
-
-        <a-form-item label="Meta Description">
-          <a-input 
-            v-decorator="[
-              'meta_description',
-              {rules: [{ required: false }]}
-            ]"
-            />
-        </a-form-item>
-       
-
+        <category-fields />
         <a-form-item>
           <a-button type="primary" html-type="submit">
             Save
           </a-button>
+          <router-link class="ml-1" :to="{ name:'admin.category.index'}">
+              <a-button>
+                  Cancel
+              </a-button>
+          </router-link>
 
         </a-form-item>
       </a-form>
@@ -54,11 +23,13 @@
 
 <script>
 import CATEGORY_CREATE from '@/graphql/catalog/category/Create.gql';
+import CategoryFields from '@/components/catalog/CategoryFields.vue';
 import isEmpty from 'lodash/isEmpty';
 
 export default {
   name: 'category-create',
   components: {
+    'category-fields': CategoryFields
   },
   data() {
       return {

@@ -46,7 +46,7 @@ let router = new Router({
               {
                 path: 'category',
                 component: CategoryIndex,
-                name: 'admin.category',
+                name: 'admin.category.index',
                 label: 'Category',
                 meta: {'middleware': {auth: Auth}},
               },

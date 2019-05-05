@@ -1,0 +1,16 @@
+#import "./CategoryFragment.gql"
+mutation CreateCategory (
+	$name: String!,
+	$slug: String!,
+	$meta_title: String,
+	$meta_description: String
+) {
+	createCategory(
+		name: $name,
+		slug: $slug,
+		meta_title: $meta_title,
+		meta_description: $meta_description
+	) {
+		...Category
+	}
+}

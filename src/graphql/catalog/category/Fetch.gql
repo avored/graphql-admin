@@ -1,0 +1,7 @@
+#import "./CategoryFragment.gql"
+
+query FetchCategory ($id: Int!) {
+	fetchCategory(id: $id) {
+		...Category
+	}
+}

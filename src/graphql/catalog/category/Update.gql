@@ -1,0 +1,19 @@
+#import "./CategoryFragment.gql"
+
+mutation UpdateCategory (
+	$id: Int!,
+	$name: String!,
+	$slug: String!,
+	$meta_title: String,
+	$meta_description: String
+) {
+	updateCategory(
+		id: $id,
+		name: $name,
+		slug: $slug,
+		meta_title: $meta_title,
+		meta_description: $meta_description
+	) {
+		...Category
+	}
+}

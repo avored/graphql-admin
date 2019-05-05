@@ -9,6 +9,9 @@ const messages = {
             category: {
                 index: 'Category Index',
                 edit: 'Category Edit',
+                create: 'Category Create',
+                update_success: 'Category Updated Successfully!',
+                create_success: 'Category Created Successfully!',
             },
         },
     },

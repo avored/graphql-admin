@@ -1,18 +1,10 @@
 <template>
   <div>
-      <h1>{{ $t('catalog.category.edit') }}</h1>
+      <h1>{{ $t('catalog.category.create') }}</h1>
        <a-form
         :form="categoryForm"
         @submit="handleSubmit"
       >
-        <a-form-item style="display:none" label="Id">
-            <a-input
-              v-decorator="[
-                'id',
-                {rules: [{ required: true, message: 'Please enter id for an category' }]}
-              ]"
-            />
-        </a-form-item>
         <a-form-item label="Name">
           <a-input
             v-decorator="[
@@ -61,21 +53,15 @@
 </template>
 
 <script>
-import CATEGORY_FETCH from '@/graphql/catalog/category/Fetch.gql';
-import CATEGORY_UPDATE from '@/graphql/catalog/category/Update.gql';
-
-import pick from 'lodash/pick';
+import CATEGORY_CREATE from '@/graphql/catalog/category/Create.gql';
 import isEmpty from 'lodash/isEmpty';
-import isNil from 'lodash/isNil';
-import isFunction from 'lodash/isFunction';
 
 export default {
-  name: 'category-edit',
+  name: 'category-create',
   components: {
   },
   data() {
       return {
-        category: {},
         categoryForm: this.$form.createForm(this),
       }
   },
@@ -86,11 +72,11 @@ export default {
         this.categoryForm.validateFields((err, values) => {
           if (!err) {
               this.$apollo.mutate({
-                mutation: CATEGORY_UPDATE,
+                mutation: CATEGORY_CREATE,
                 variables: values,
               }).then(({data}) => {
                   app.$notification['success']({
-                      message: app.$t('catalog.category.update_success'),
+                      message: app.$t('catalog.category.create_success'),
                   });
                   app.$router.push('/admin/catalog/category');
               }).catch(({message, debugMessage}) => {
@@ -111,27 +97,6 @@ export default {
       }
   },
   mounted() {
-     
-   
-  },
-  apollo: {
-      category: {
-          query: CATEGORY_FETCH,
-          variables() {
-            return { id: this.$route.params.id };
-          },
-          update ({fetchCategory}) {
-            window.x = this.categoryForm;
-              this.categoryForm.getFieldDecorator('id', {});
-              this.categoryForm.getFieldDecorator('name', {});
-              this.categoryForm.getFieldDecorator('slug', {});
-              this.categoryForm.getFieldDecorator('meta_title', {});
-              this.categoryForm.getFieldDecorator('meta_description', {});
-
-              this.categoryForm.setFieldsValue(pick(fetchCategory, ['id', 'name', 'slug', 'meta_title', 'meta_description']));
-              return fetchCategory
-          },
-      },
   }
 }
 </script>

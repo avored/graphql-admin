@@ -5,6 +5,7 @@ import store from './store'
 import { createProvider } from './vue-apollo'
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
+import '@/css/common.css'
 import i18n from '@/plugins/i18n';
 
 import LoginLayout from "@/layouts/Login";

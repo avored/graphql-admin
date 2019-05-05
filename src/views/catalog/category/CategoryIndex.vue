@@ -1,6 +1,13 @@
 <template>
   <div>
-      <h1>{{ $t('catalog.category.index') }}</h1>
+      <h1 class="float-left">{{ $t('catalog.category.index') }}</h1>
+      <router-link  :to="{ name:'admin.category.create'}">
+            <a-button class="float-right" type="primary"  icon="plus">
+                Create
+            </a-button>
+        </router-link>
+        <div class="clearfix"></div>
+
       <a-table :columns="columns"
         :rowKey="record => record.id"
         :loading="loading"
@@ -22,6 +29,7 @@
 import CATEGORY_ALL from '@/graphql/catalog/category/All.gql'
 import CATEGORY_DELETE from '@/graphql/catalog/category/Delete.gql'
 import UserAuth from '@/graphql/UserAuth.gql';
+import isEmpty from 'lodash/isEmpty';
 
 const columns = [
     {
@@ -63,15 +71,21 @@ export default {
                       id: record.id
                     },
                   }).then(({data}) => {
-                        console.log(data);
                         app.$notification['success']({
-                           message: data.delete_category,
+                           message: data.deleteCategory,
                         });
                         app.$router.push('/admin/catalog/category');
-                  }).catch((error) => {
-                      app.$notification['error']({
-                           message: error.message,
-                       });
+                  }).catch(({message, debugMessage}) => {
+                      if (!isEmpty(message)) {
+                          app.$notification['error']({
+                               message: message,
+                           });
+                      }
+                      if (!isEmpty(debugMessage)) {
+                          app.$notification['error']({
+                               message: debugMessage,
+                           });
+                      }
                       return;
                   });
               }
@@ -84,9 +98,9 @@ export default {
   apollo: {
       categories: {
         query: CATEGORY_ALL,
-        update ({ all_category }) {
+        update ({ allCategory }) {
             this.loading = false;
-            return all_category
+            return allCategory
 		},
       },
   }

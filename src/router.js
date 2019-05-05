@@ -8,6 +8,7 @@ import isNil from 'lodash/isNil';
 import Catalog from './views/catalog/Catalog.vue'
 
 import CategoryIndex from './views/catalog/category/CategoryIndex.vue'
+import CategoryCreate from './views/catalog/category/CategoryCreate.vue'
 import CategoryEdit from './views/catalog/category/CategoryEdit.vue'
 import ProductIndex from './views/catalog/product/ProductIndex.vue'
 
@@ -47,6 +48,13 @@ let router = new Router({
                 component: CategoryIndex,
                 name: 'admin.category',
                 label: 'Category',
+                meta: {'middleware': {auth: Auth}},
+              },
+              {
+                path: 'category/create',
+                component: CategoryCreate,
+                name: 'admin.category.create',
+                label: 'Category Create',
                 meta: {'middleware': {auth: Auth}},
               },
               {

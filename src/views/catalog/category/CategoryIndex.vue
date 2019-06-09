@@ -8,8 +8,11 @@
         </router-link>
         <div class="clearfix"></div>
 
-      <a-table :columns="columns"
+      <a-table
+        :columns="columns"
         :rowKey="record => record.id"
+        :pagination="pagination"
+        @change="handleCategoryIndexChange"
         :loading="loading"
         :dataSource="categories"
       >
@@ -30,6 +33,7 @@ import CATEGORY_ALL from '@/graphql/catalog/category/All.gql'
 import CATEGORY_DELETE from '@/graphql/catalog/category/Delete.gql'
 import UserAuth from '@/graphql/UserAuth.gql';
 import isEmpty from 'lodash/isEmpty';
+import { filter } from 'minimatch';
 
 const columns = [
     {
@@ -49,60 +53,62 @@ const columns = [
   ];
 
 export default {
-  name: 'category-index',
-  components: {
-  },
-  data() {
-    return {
-      loading: true,
-      categories: null,
-      columns,
-    }
-  },
-  methods: {
-      deleteCategory(record) {
-          var app = this;
-          this.$confirm({
-              title: 'Do you want to delete this record?',
-              onOk() {
-                return app.$apollo.mutate({
-                    mutation: CATEGORY_DELETE,
-                    variables: {
-                      id: record.id
-                    },
-                  }).then(({data}) => {
-                        app.$notification['success']({
-                           message: data.deleteCategory,
-                        });
-                        app.$router.push('/admin/catalog/category');
-                  }).catch(({message, debugMessage}) => {
-                      if (!isEmpty(message)) {
-                          app.$notification['error']({
-                               message: message,
-                           });
-                      }
-                      if (!isEmpty(debugMessage)) {
-                          app.$notification['error']({
-                               message: debugMessage,
-                           });
-                      }
-                      return;
-                  });
-              }
-          });
-      }
-  },
-  mounted() {
-
-  },
-  apollo: {
-      categories: {
-        query: CATEGORY_ALL,
-        update ({ allCategory }) {
+    name: 'category-index',
+    components: {
+    },
+    data() {
+        return {
+        loading: true,
+        pagination: {},
+        categories: null,
+        columns,
+        }
+    },
+    methods: {
+        handleCategoryIndexChange(pagination, filters, sorter) {
+            console.log(pagination, filter, sorter);
+        },
+        deleteCategory(record) {
+            var app = this;
+            this.$confirm({
+                title: 'Do you want to delete this record?',
+                onOk() {
+                    return app.$apollo.mutate({
+                        mutation: CATEGORY_DELETE,
+                        variables: {
+                        id: record.id
+                        },
+                    }).then(({data}) => {
+                            app.$notification['success']({
+                            message: data.deleteCategory,
+                            });
+                            app.$router.push('/admin/catalog/category');
+                    }).catch(({message, debugMessage}) => {
+                        if (!isEmpty(message)) {
+                            app.$notification['error']({
+                                message: message,
+                            });
+                        }
+                        if (!isEmpty(debugMessage)) {
+                            app.$notification['error']({
+                                message: debugMessage,
+                            });
+                        }
+                        return;
+                    });
+                }
+            });
+        },
+        async fetchCategoryCollection(params = {}) {
+            let data = await this.$apollo.query({
+                query: CATEGORY_ALL
+            });
             this.loading = false;
-            return allCategory
-		},
-      },
-  }
+            return data.data.allCategory;
+        },  
+    },
+    async mounted() {
+        this.categories = await this.fetchCategoryCollection();
+    },    
 }
 </script>

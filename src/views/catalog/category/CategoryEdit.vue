@@ -90,7 +90,6 @@ export default {
             return { id: this.$route.params.id };
           },
           update ({fetchCategory}) {
-            window.x = this.categoryForm;
               this.categoryForm.getFieldDecorator('id', {});
               this.categoryForm.getFieldDecorator('name', {});
               this.categoryForm.getFieldDecorator('slug', {});

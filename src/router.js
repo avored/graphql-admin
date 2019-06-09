@@ -20,7 +20,7 @@ let router = new Router({
         { path: '/', redirect: '/admin/dashboard', displayInSidebar: false },
         {
           path: '/admin/dashboard',
-          name: 'admin-dashboard',
+          name: 'admin.dashboard',
           label: 'Dashboard',
           icon: 'dashboard',
           component: AdminDashboard,

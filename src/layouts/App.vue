@@ -1,9 +1,9 @@
 
 <template>
   <a-layout id="avored-admin" style="min-height: 100vh">
-    <app-sidebar/>
+      <app-sidebar ref="sideBar"></app-sidebar>
       <a-layout>
-        <app-header/>
+        <app-header @toggleSideBarClicked="toggleSideBarClicked"  />
         <a-layout-content style="margin: 0 16px">
           <app-breadcrumb />
             <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
@@ -30,15 +30,14 @@ export default {
     },
     data () {
         return {
-          
+          collapsed: false,
         }
     },
+    methods: {
+        toggleSideBarClicked() {
+          //window.x = this;
+          this.$refs.sideBar.toggleSideBar();
+        }
+    }
 }
 </script>
-<style>
-#avored-admin .logo {
-  height: 32px;
-  background: rgba(255,255,255,.2);
-  margin: 16px;
-}
-</style>

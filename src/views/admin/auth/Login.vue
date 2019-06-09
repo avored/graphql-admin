@@ -7,13 +7,10 @@
               <a-card title="AvoRed Login Cart">
                    <a-form
                       :form="loginForm"
-                      method="post"
-                      action="#"
-                      @submit.prevent="handleSubmit"
+                      @submit.prevent="handleLoginSubmit"
                   >
                      
-                      <a-form-item      
-                         
+                      <a-form-item
                           label="Email Address">
                             <a-input
                           :auto-focus="true"
@@ -74,45 +71,42 @@ import isNil from 'lodash/isNil';
 import {AUTH_TOKEN} from '@/constants';
 
 export default {
-  name: 'admin-login',
-  components: {
-    
-  },
-  data() {
-    return {
-        loginForm: this.$form.createForm(this),
-        email: '',
-        password: ''
-    }
-  },
- 
-  methods: {
-    async handleSubmit() {
-      var result = await this.authMutation()
-      if (!isNil(result.data.auth.access_token)) {
-        localStorage.setItem(AUTH_TOKEN, result.data.auth.access_token);
-        this.$router.push('/')
-      }
+    name: 'admin-login',
+    components: {
     },
+    data() {
+        return {
+            loginForm: this.$form.createForm(this),
+            email: '',
+            password: ''
+        }
+    },
+    methods: {
+        async handleLoginSubmit(e) {
+            console.log(e.preventDefault());
+            let values = this.loginForm.getFieldsValue();
+            var result = await this.authMutation(values)
+            if (!isNil(result.data.auth.access_token)) {
+                localStorage.setItem(AUTH_TOKEN, result.auth.access_token);
+                this.$router.push('/')
+            }
+        },
 
-    async authMutation() {
-        this.$apollo.client = "auth";
+        async authMutation(values) {
+            this.$apollo.client = "auth";
 
-        return this.$apollo.mutate({
-            // Query
-            mutation: UserAuth,
-            clientId: 'auth',
-            // Parameters
-            variables: {
-              email: "admin@admin.com",
-              password: "admin123",
-            },
-          }).then((data) => {
-              return data;
-          }).catch((error) => {
-              console.error(error);
-          });
+            return this.$apollo.mutate({
+                mutation: UserAuth,
+                clientId: 'auth',
+                variables: values,
+            }).then(({data}) => {
+                console.log(window.x = data);
+                return data;
+            }).catch((error) => {
+                window.y = error;
+                //console.error(error);
+            });
+        }
     }
-  }
 }
 </script>
